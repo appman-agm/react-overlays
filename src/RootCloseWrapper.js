@@ -64,6 +64,9 @@ class RootCloseWrapper extends React.Component {
 
     this.documentKeyupListener =
       addEventListener(doc, 'keyup', this.handleKeyUp);
+
+    this.documentTouchListener =
+      addEventListener(doc, 'touchstart', this.handleMouse);
   }
 
   removeEventListeners = () => {
@@ -77,6 +80,10 @@ class RootCloseWrapper extends React.Component {
 
     if (this.documentKeyupListener) {
       this.documentKeyupListener.remove();
+    }
+
+    if (this.documentTouchListener) {
+      this.documentTouchListener.remove();
     }
   }
 
