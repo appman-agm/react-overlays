@@ -63,7 +63,10 @@ class RootCloseWrapper extends React.Component {
       addEventListener(doc, event, this.handleMouse);
 
     this.documentKeyupListener =
-      addEventListener(doc, 'keyup', this.handleKeyUp);
+			addEventListener(doc, 'keyup', this.handleKeyUp);
+
+		this.documentTouchCaptureListener =
+      addEventListener(doc, 'touchstart', this.handleMouseCapture, true);
 
     this.documentTouchListener =
       addEventListener(doc, 'touchstart', this.handleMouse);
@@ -82,6 +85,10 @@ class RootCloseWrapper extends React.Component {
       this.documentKeyupListener.remove();
     }
 
+    if (this.documentTouchCaptureListener) {
+      this.documentTouchCaptureListener.remove();
+		}
+
     if (this.documentTouchListener) {
       this.documentTouchListener.remove();
     }
@@ -90,10 +97,9 @@ class RootCloseWrapper extends React.Component {
   handleMouseCapture = (e) => {
     this.preventMouseRootClose = (
       isModifiedEvent(e) ||
-      !isLeftClickEvent(e) ||
       contains(ReactDOM.findDOMNode(this), e.target)
     );
-  };
+	};
 
   handleMouse = (e) => {
     if (!this.preventMouseRootClose && this.props.onRootClose) {
