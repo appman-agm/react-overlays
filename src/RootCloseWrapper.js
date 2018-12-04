@@ -97,7 +97,7 @@ class RootCloseWrapper extends React.Component {
   handleMouseCapture = (e) => {
     this.preventMouseRootClose = (
       isModifiedEvent(e) ||
-      contains(ReactDOM.findDOMNode(this), e.target)
+      contains(ReactDOM.findDOMNode(this.props.container || this), e.target)
     );
 	};
 
@@ -136,11 +136,12 @@ RootCloseWrapper.propTypes = {
   /**
    * Choose which document mouse event to bind to.
    */
-  event: PropTypes.oneOf(['click', 'mousedown'])
+  event: PropTypes.oneOf(['click', 'mousedown']),
+  container: PropTypes.object,
 };
 
 RootCloseWrapper.defaultProps = {
-  event: 'click'
+  event: 'mousedown'
 };
 
 export default RootCloseWrapper;
