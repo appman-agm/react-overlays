@@ -73,7 +73,7 @@ class RootCloseWrapper extends React.Component {
       addEventListener(doc, 'touchend', this.handleTouchEnd);
 
     this.documentTouchMoveCaptureListener =
-      addEventListener(doc, 'touchmove', this.handleStop, true);
+      addEventListener(doc, 'touchmove', this.handleTouchMoveCapture, true);
   }
 
   removeEventListeners = () => {
@@ -123,14 +123,15 @@ class RootCloseWrapper extends React.Component {
 
 
   handleTouchEnd = (e) => {
-      if(this.onTouchMove) {
-        this.onTouchMove = false
-        return
-      }
-      this.handleMouse(e)
+    if(this.onTouchMove) {
+      this.onTouchMove = false
+      return
     }
+    this.handleMouse(e)
+    this.onTouchMove = false
+  }
   
-  handleStop = () => {
+  handleTouchMoveCapture = () => {
     this.onTouchMove = true
   };
 
