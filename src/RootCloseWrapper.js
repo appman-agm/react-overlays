@@ -128,7 +128,6 @@ class RootCloseWrapper extends React.Component {
       return
     }
     this.handleMouse(e)
-    this.onTouchMove = false
   }
   
   handleTouchMoveCapture = () => {
