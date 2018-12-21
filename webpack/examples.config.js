@@ -11,6 +11,7 @@ module.exports = Object.assign(
     devtool: 'module-source-map',
 
     devServer: {
+      host: '0.0.0.0',
       contentBase: path.resolve(__dirname, '../examples'),
       stats: { colors: true },
     },

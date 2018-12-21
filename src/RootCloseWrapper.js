@@ -27,6 +27,7 @@ class RootCloseWrapper extends React.Component {
     super(props, context);
 
     this.preventMouseRootClose = false;
+    this.onTouchMove = false;
   }
 
   componentDidMount() {
@@ -63,13 +64,16 @@ class RootCloseWrapper extends React.Component {
       addEventListener(doc, event, this.handleMouse);
 
     this.documentKeyupListener =
-			addEventListener(doc, 'keyup', this.handleKeyUp);
+      addEventListener(doc, 'keyup', this.handleKeyUp);
 
 		this.documentTouchCaptureListener =
-      addEventListener(doc, 'touchstart', this.handleMouseCapture, true);
+      addEventListener(doc, 'touchend', this.handleMouseCapture, true);
 
     this.documentTouchListener =
-      addEventListener(doc, 'touchstart', this.handleMouse);
+      addEventListener(doc, 'touchend', this.handleTouchEnd);
+
+    this.documentTouchMoveCaptureListener =
+      addEventListener(doc, 'touchmove', this.handleStop, true);
   }
 
   removeEventListeners = () => {
@@ -92,6 +96,10 @@ class RootCloseWrapper extends React.Component {
     if (this.documentTouchListener) {
       this.documentTouchListener.remove();
     }
+
+    if (this.documentTouchMoveCaptureListener) {
+      this.documentTouchMoveCaptureListener.remove();
+    }
   }
 
   handleMouseCapture = (e) => {
@@ -106,11 +114,24 @@ class RootCloseWrapper extends React.Component {
       this.props.onRootClose(e);
     }
   };
-
+ 
   handleKeyUp = (e) => {
     if (e.keyCode === escapeKeyCode && this.props.onRootClose) {
       this.props.onRootClose(e);
     }
+  };
+
+
+  handleTouchEnd = (e) => {
+      if(this.onTouchMove) {
+        this.onTouchMove = false
+        return
+      }
+      this.handleMouse(e)
+    }
+  
+  handleStop = () => {
+    this.onTouchMove = true
   };
 
   render() {

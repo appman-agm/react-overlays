@@ -24,7 +24,7 @@
     "build": "npm run clean && babel src -d lib",
     "build-examples": "rimraf examples/static && webpack --config webpack/docs.config.js",
     "clean": "rimraf lib",
-    "examples": "webpack-dev-server --config webpack/examples.config.js --hot --port 3000 --progress",
+    "examples": "webpack-dev-server --config webpack/examples.config.js --hot --port 3333 --progress",
     "lint": "eslint examples src test *.js",
     "release": "release",
     "tdd": "cross-env NODE_ENV=test karma start",
